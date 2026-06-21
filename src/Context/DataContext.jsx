@@ -24,7 +24,7 @@ function DataContext({ children }) {
     useEffect(() => {
         getAllMovies()
             .then(item => {
-                const enrichedItem = item.map(movie => {
+                const enrichedItem = item?.map(movie => {
                     const codeSum = movie.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                     const rating = movie.rating || parseFloat((6.5 + (codeSum % 31) / 10).toFixed(1));
                     const imdbLink = movie.imdbLink || `https://www.imdb.com/find?q=${encodeURIComponent(movie.name)}`;
@@ -33,7 +33,7 @@ function DataContext({ children }) {
                         rating,
                         imdbLink,
                     };
-                });
+                }) || [];
                 setdata(enrichedItem)
             })
             .catch(err => setError(err))
@@ -41,7 +41,7 @@ function DataContext({ children }) {
 
         getAllTheatres()
             .then(item => {
-                const enrichedTheatres = item.map(t => {
+                const enrichedTheatres = item?.map(t => {
                     if (t.movie) {
                         const codeSum = t.movie.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                         const rating = t.movie.rating || parseFloat((6.5 + (codeSum % 31) / 10).toFixed(1));
@@ -56,7 +56,7 @@ function DataContext({ children }) {
                         };
                     }
                     return t;
-                });
+                }) || [];
                 setTheatreData(enrichedTheatres)
             })
 

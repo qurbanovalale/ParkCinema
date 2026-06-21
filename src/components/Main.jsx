@@ -51,22 +51,22 @@ function Main() {
   if (loader) return <Loader />
 
   // Extract unique genres and years for search dropdowns
-  const genres = [...new Set(data.flatMap(movie => movie.genres?.map(g => g.title) || []))].filter(Boolean)
-  const years = [...new Set(data.map(movie => movie.year))].filter(Boolean).sort((a, b) => b - a)
+  const genres = [...new Set((data || []).flatMap(movie => movie.genres?.map(g => g.title) || []))].filter(Boolean)
+  const years = [...new Set((data || []).map(movie => movie.year))].filter(Boolean).sort((a, b) => b - a)
   const languages = ['AZ', 'EN', 'TR', 'RU']
   
   // Extract unique theatres correctly (fix duplicate bug)
-  const theatres = [...new Set(theatreData?.map(item => item.theatreTitle))].filter(Boolean)
+  const theatres = [...new Set((theatreData || []).map(item => item.theatreTitle))].filter(Boolean)
 
   // Filter logic incorporating all basic & advanced criteria
-  const filteredMovies = data.filter(movie => {
+  const filteredMovies = (data || []).filter(movie => {
     // Language
     if (lang !== 'DIL' && !movie.languages?.includes(lang)) return false
 
     // Theatre
     if (selectedTheatre !== 'Kinoteatr') {
-      const shownInTheatre = theatreData.some(
-        item => item.theatreTitle === selectedTheatre && item.movie.id === movie.id
+      const shownInTheatre = (theatreData || []).some(
+        item => item.theatreTitle === selectedTheatre && item.movie?.id === movie.id
       )
       if (!shownInTheatre) return false
     }
@@ -80,7 +80,7 @@ function Main() {
     }
 
     // Name (Advanced Search)
-    if (debouncedSearch && !movie.name.toLowerCase().includes(debouncedSearch.toLowerCase())) return false
+    if (debouncedSearch && !movie.name?.toLowerCase().includes(debouncedSearch.toLowerCase())) return false
 
     // Genre (Advanced Search)
     if (selectedGenre !== 'JANR' && !movie.genres?.some(g => g.title === selectedGenre)) return false
@@ -104,7 +104,7 @@ function Main() {
   const trendingMovies = staticTrendingMovies
 
   // Best of this Week: Top 3 rated movies from database
-  const bestOfTheWeek = [...data].sort((a, b) => b.rating - a.rating).slice(0, 3)
+  const bestOfTheWeek = [...(data || [])].sort((a, b) => b.rating - a.rating).slice(0, 3)
 
   // Categorized genres to show in Netflix style horizontal rows
   const selectedGenresToShow = genres.slice(0, 4)
@@ -150,7 +150,7 @@ function Main() {
             modules={[Navigation, Pagination, Autoplay]}
             className="trending-swiper pb-8 w-full"
           >
-            {trendingMovies.map(movie => (
+            {trendingMovies?.map(movie => (
               <SwiperSlide key={movie.id}>
                 <div className={`relative group overflow-hidden rounded-2xl transition-all duration-300 border mx-auto w-[280px] sm:w-full ${
                   theme === 'light' 
@@ -235,7 +235,7 @@ function Main() {
                 }`}
               >
                 <option value="JANR">Bütün Janrlar</option>
-                {genres.map((g, index) => (
+                {genres?.map((g, index) => (
                   <option key={index} value={g}>{g}</option>
                 ))}
               </select>
@@ -252,7 +252,7 @@ function Main() {
                 }`}
               >
                 <option value="IL">Bütün İllər</option>
-                {years.map((y, index) => (
+                {years?.map((y, index) => (
                   <option key={index} value={y}>{y}</option>
                 ))}
               </select>
@@ -269,7 +269,7 @@ function Main() {
                 }`}
               >
                 <option value="DIL">Bütün Dillər</option>
-                {languages.map((l, index) => (
+                {languages?.map((l, index) => (
                   <option key={index} value={l}>{l}</option>
                 ))}
               </select>
@@ -286,7 +286,7 @@ function Main() {
                 }`}
               >
                 <option value="Kinoteatr">Bütün Kinoteatrlar</option>
-                {theatres.map((t, index) => (
+                {theatres?.map((t, index) => (
                   <option key={index} value={t}>{t}</option>
                 ))}
               </select>
@@ -336,7 +336,7 @@ function Main() {
           {filteredMovies.length > 0 ? (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 justify-items-center">
-                {currentMovies.map(movie => (
+                {currentMovies?.map(movie => (
                   <div key={movie.id} className="w-full max-w-[304px]">
                     <Card {...movie} />
                   </div>
@@ -404,7 +404,7 @@ function Main() {
             <h2 className={`text-3xl font-extrabold tracking-wide uppercase ${theme === 'light' ? 'text-neutral-900' : 'text-white'}`}>Bu Həftənin Ən Yaxşıları</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {bestOfTheWeek.map((movie, index) => (
+            {bestOfTheWeek?.map((movie, index) => (
               <div 
                 key={movie.id} 
                 className={`relative border rounded-3xl p-6 flex flex-col sm:flex-row gap-6 items-center shadow-xl transition-all duration-300 w-full ${
@@ -445,7 +445,7 @@ function Main() {
 
         {/* 5. CATEGORIZED GENRE SECTIONS (Netflix Row Style) */}
         <section className="flex flex-col gap-12 w-full overflow-hidden">
-          {selectedGenresToShow.map(genreTitle => {
+          {selectedGenresToShow?.map(genreTitle => {
             const genreMovies = data.filter(m => m.genres?.some(g => g.title === genreTitle))
             if (genreMovies.length === 0) return null
 
@@ -456,7 +456,7 @@ function Main() {
                   <span className="text-xs text-red-500 font-bold hover:underline cursor-pointer">Hamısına Bax</span>
                 </div>
                 <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-red-600 scrollbar-track-transparent">
-                  {genreMovies.map(movie => (
+                  {genreMovies?.map(movie => (
                     <div key={movie.id} className="w-[140px] sm:w-[200px] md:w-[240px] flex-shrink-0 hover:scale-[1.02] transition-transform duration-300">
                       <Card {...movie} />
                     </div>

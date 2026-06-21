@@ -83,7 +83,7 @@ function Detail() {
   }
 
   // Filter similar movies: movies in same genre, excluding current movie
-  const similarMovies = data.filter(m => 
+  const similarMovies = (data || []).filter(m => 
     m.id !== movie.id && 
     m.genres?.some(genre => movie.genres?.some(g => g.title === genre.title))
   ).slice(0, 4);
@@ -452,7 +452,7 @@ function Detail() {
           
           {similarMovies.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
-              {similarMovies.map(similar => (
+              {similarMovies?.map(similar => (
                 <Link 
                   to={`/movie/${similar.id}`} 
                   key={similar.id} 

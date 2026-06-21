@@ -87,14 +87,14 @@ function Admin() {
             rating: '',
             imdbLink: ''
           })
-          setdata(data.map(m => m.id === newMovie.id ? enrichedItem : m))
+          setdata((data || []).map(m => m.id === newMovie.id ? enrichedItem : m))
         });
     }
   }
 
   function handleInps(id) {
     SetpopUp({ ...popUp, status: true, method: 'edit' })
-    const findedMovie = data.find(item => item.id == id)
+    const findedMovie = (data || []).find(item => item.id == id)
     setNewMovie({
       ...findedMovie,
       languages: findedMovie.languages ? findedMovie.languages.join(', ') : '',
@@ -105,7 +105,7 @@ function Admin() {
 
   async function handleDelete(id) {
     if (window.confirm("Bu filmi silmək istədiyinizdən əminsinizmi?")) {
-      const deletedData = data.filter(item => item.id != id)
+      const deletedData = (data || []).filter(item => item.id != id)
       await deleteMovieById(id)
         .then(() => {
           toast.success("Film uğurla silindi!")
@@ -223,7 +223,7 @@ function Admin() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-800">
-                {data.map(item => (
+                {data?.map(item => (
                   <tr key={item?.id} className={`transition-colors ${
                     theme === 'light' ? 'hover:bg-neutral-50/50 text-neutral-850' : 'hover:bg-neutral-900/50 text-neutral-300'
                   }`}>

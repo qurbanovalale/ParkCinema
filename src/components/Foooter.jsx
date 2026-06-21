@@ -4,6 +4,7 @@ import { FaFacebook } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function Foooter() {
   return (
@@ -29,11 +30,11 @@ function Foooter() {
             <div className="text-[15px] sm:text-[16px] text-[#d9dadb] flex flex-col gap-4 items-start">
                 <p className="font-bold text-white tracking-wide">Bizi İzləyin</p>
                 <div className="flex gap-4 items-center">
-                    <a href="#" className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Instagram"><RiInstagramFill /></a>
-                    <a href="#" className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Facebook"><FaFacebook /></a>
-                    <a href="#" className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Youtube"><FaYoutube /></a>
-                    <a href="#" className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Telegram"><FaTelegram /></a>
-                    <a href="#" className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Tiktok"><FaTiktok /></a>
+                   <Link to={`https://www.instagram.com/parkcinema/?hl=en`}> <p className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Instagram"><RiInstagramFill /></p></Link>
+                    <Link to={`https://www.facebook.com/ParkCinema/`}><p className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Facebook"><FaFacebook /></p></Link>
+                    <Link to={`https://www.youtube.com/@ParkCinemaAzerbaijan`}><p className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Youtube"><FaYoutube /></p></Link>
+                    <Link to={`https://t.me/cinema_park_official/13601`} ><p className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Telegram"><FaTelegram /></p></Link>
+                   <Link to={`https://www.tiktok.com/@parkcinema.az`}> <p className="flex justify-center items-center w-9 h-9 bg-[#d9dadb] hover:bg-white transition-colors rounded-full text-[#86312a] text-[18px]" aria-label="Tiktok"><FaTiktok /></p></Link>
                 </div>
             </div>
             
